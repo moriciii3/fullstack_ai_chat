@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./inicio-chat-flow
+    ports:
+      - "8080:8080"         # Vite dev server
+    volumes:
+      - ./inicio-chat-flow:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: ["npm", "run", "dev", "--", "--host"]
+
+  backend:
+    build:
+      context: ./api_client
+    ports:
+      - "8000:8000"         # Django dev server
+    volumes:
+      - ./api_client:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
